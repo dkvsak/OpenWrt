@@ -117,13 +117,25 @@ if [ -x /usr/bin/quickfile ]; then
     uci -q delete nginx._lan
     uci -q delete nginx._redirect2ssl
     uci set nginx._lan='server'
-    uci set nginx._lan.uci_manage_ssl='self-signed'
+    uci -q delete nginx._lan.uci_manage_ssl
+    uci -q delete nginx._lan.ssl_certificate
+    uci -q delete nginx._lan.ssl_certificate_key
     uci -q delete nginx._lan.ssl_session_reuse
     uci add_list nginx._lan.listen='80 default_server'
     uci add_list nginx._lan.listen='[::]:80 default_server'
     uci add_list nginx._lan.include='conf.d/*.locations'
     uci set nginx._lan.access_log='off; # logd openwrt'
     uci commit nginx
+fi
+
+# Let luci-app-easytier manage its own tun0 interface, EasyTier zone, and
+# forwarding section. lanfwet enables only LAN-to-EasyTier forwarding.
+if uci -q show easytier >/dev/null; then
+    uci set easytier.@easytier[0].auto_config_interface='1'
+    uci set easytier.@easytier[0].auto_config_firewall='1'
+    uci -q del_list easytier.@easytier[0].et_forward='lanfwet'
+    uci add_list easytier.@easytier[0].et_forward='lanfwet'
+    uci commit easytier
 fi
 
 exit 0
