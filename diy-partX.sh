@@ -30,15 +30,6 @@ clone_custom_package() {
     test -d "$directory" || git clone --depth 1 --branch "$branch" "$repo" "$directory"
 }
 
-patch_netspeedtest_for_openwrt_main() {
-    local makefile="package/custom/netspeedtest/luci-app-netspeedtest/Makefile"
-    test -f "$makefile" || return 0
-
-    # These Python modules are no longer separate packages on OpenWrt main.
-    sed -i -e 's/[[:space:]]*+python3-pkg-resources//g' \
-        -e 's/[[:space:]]*+python3-email//g' "$makefile"
-}
-
 if [ ! -d feeds/packages ]; then
     add_feed lucky 'https://github.com/gdy666/luci-app-lucky.git;main'
     add_feed easytier 'https://github.com/EasyTier/luci-app-easytier.git;main'
@@ -55,7 +46,8 @@ if [ ! -d feeds/packages ]; then
     clone_custom_package \
         'https://github.com/sirpdboy/netspeedtest.git' main \
         package/custom/netspeedtest
-    patch_netspeedtest_for_openwrt_main
+    git -C package/custom/netspeedtest apply \
+        "$GITHUB_WORKSPACE/patches/netspeedtest-speedtest-go.patch"
     clone_custom_package \
         'https://github.com/QiuSimons/luci-app-honk.git' master \
         package/custom/honk
