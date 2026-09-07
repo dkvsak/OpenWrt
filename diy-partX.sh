@@ -42,6 +42,12 @@ if [ ! -d feeds/packages ]; then
     clone_custom_package \
         'https://github.com/eamonxg/luci-app-aurora-config.git' master \
         package/custom/luci-app-aurora-config
+    clone_custom_package \
+        'https://github.com/sirpdboy/netspeedtest.git' main \
+        package/custom/netspeedtest
+    clone_custom_package \
+        'https://github.com/QiuSimons/luci-app-honk.git' master \
+        package/custom/honk
     exit 0
 fi
 
@@ -55,6 +61,13 @@ for symbol in \
     PACKAGE_luci-i18n-easytier-zh-cn \
     PACKAGE_luci-app-quickfile \
     PACKAGE_luci-i18n-quickfile-zh-cn \
+    PACKAGE_luci-app-ttyd \
+    PACKAGE_luci-i18n-ttyd-zh-cn \
+    PACKAGE_luci-app-netspeedtest \
+    PACKAGE_luci-i18n-netspeedtest-zh-cn \
+    PACKAGE_honk \
+    PACKAGE_luci-app-honk \
+    PACKAGE_luci-i18n-honk-zh-cn \
     PACKAGE_clashoo \
     PACKAGE_luci-app-clashoo \
     PACKAGE_luci-i18n-clashoo-zh-cn; do
