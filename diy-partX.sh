@@ -35,6 +35,7 @@ if [ ! -d feeds/packages ]; then
     add_feed easytier 'https://github.com/EasyTier/luci-app-easytier.git;main'
     add_feed quickfile 'https://github.com/sbwml/luci-app-quickfile.git;main'
     add_feed clashoo 'https://github.com/kenzok8/openwrt-clashoo.git;main'
+    add_feed istore 'https://github.com/linkease/istore.git;main'
     mkdir -p package/custom
     clone_custom_package \
         'https://github.com/eamonxg/luci-theme-aurora.git' master \
@@ -48,6 +49,9 @@ if [ ! -d feeds/packages ]; then
     clone_custom_package \
         'https://github.com/QiuSimons/luci-app-honk.git' master \
         package/custom/honk
+    clone_custom_package \
+        'https://github.com/sirpdboy/luci-app-partexp.git' main \
+        package/custom/luci-app-partexp
     exit 0
 fi
 
@@ -65,6 +69,9 @@ for symbol in \
     PACKAGE_luci-i18n-ttyd-zh-cn \
     PACKAGE_luci-app-netspeedtest \
     PACKAGE_luci-i18n-netspeedtest-zh-cn \
+    PACKAGE_luci-app-partexp \
+    PACKAGE_luci-i18n-partexp-zh-cn \
+    PACKAGE_luci-app-store \
     PACKAGE_honk \
     PACKAGE_luci-app-honk \
     PACKAGE_luci-i18n-honk-zh-cn \
