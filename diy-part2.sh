@@ -5,7 +5,6 @@
 # git clone https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
 # git clone https://github.com/JohnsonRan/luci-app-kixdns.git package/kixdns
 git clone https://github.com/QiuSimons/luci-app-dae.git package/dae
-# git clone https://github.com/QiuSimons/luci-app-honk package/honk
 
 # ==================================================================
 # 1. 下载最新 GeoIP / GeoSite 打入固件（解决刷机/开机无规则的死锁问题）
