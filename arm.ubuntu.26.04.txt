@@ -4,6 +4,12 @@ sudo apt install -y bzip2 g++ gawk gcc git glibc-source libncurses-dev make unzi
 sudo apt install -y clang llvm 
 sudo apt install -y golang-go
 以上，arm版本的ubuntu26.04一次性完成一次性完成
-
 sudo apt install -y lld  ccache (不装也能过)
+*********************************************
+cd ~/openwrt
+mkdir -p files/usr/bin
+mkdir -p files/etc/crontabs
+创建 files/usr/bin/update-geodata 文件
+chmod +x files/usr/bin/update-geodata
+创建 files/etc/crontabs/root 文件
 *********************************************
