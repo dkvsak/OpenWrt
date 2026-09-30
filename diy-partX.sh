@@ -15,6 +15,13 @@ set_config() {
     printf 'CONFIG_%s=y\n' "$symbol" >>.config
 }
 
+unset_config() {
+    local symbol="$1"
+    sed -i -e "/^CONFIG_${symbol}=.*/d" \
+        -e "/^# CONFIG_${symbol} is not set$/d" .config
+    printf '# CONFIG_%s is not set\n' "$symbol" >>.config
+}
+
 set_config_value() {
     local symbol="$1"
     local value="$2"
@@ -51,6 +58,8 @@ if [ ! -d feeds/packages ]; then
     clone_custom_package \
         'https://github.com/QiuSimons/luci-app-honk.git' master \
         package/custom/honk
+    test -f package/custom/honk/honk/Makefile
+    test -f package/custom/honk/luci-app-honk/Makefile
     clone_custom_package \
         'https://github.com/sirpdboy/luci-app-partexp.git' main \
         package/custom/luci-app-partexp
@@ -74,6 +83,7 @@ for symbol in \
     PACKAGE_luci-app-partexp \
     PACKAGE_luci-i18n-partexp-zh-cn \
     PACKAGE_luci-app-store \
+    HONK_USE_KERNEL_BTF \
     PACKAGE_honk \
     PACKAGE_luci-app-honk \
     PACKAGE_luci-i18n-honk-zh-cn \
@@ -82,6 +92,10 @@ for symbol in \
     PACKAGE_luci-i18n-clashoo-zh-cn; do
     set_config "$symbol"
 done
+
+# honk and dae can share kernel BTF support, but only one honk BTF source may
+# be selected. Keep the integrated kernel BTF path used by this x86 build.
+unset_config HONK_USE_VMLINUX_BTF
 
 # Keep the larger x86 rootfs size isolated from upstream .config changes.
 set_config_value TARGET_ROOTFS_PARTSIZE 2048
